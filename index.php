@@ -1,37 +1,51 @@
 <?php
+
+    //connection au serveur
     require 'connection.php';
+
+    //initialisation des variables contenant les informations de l'animal aprés le submit par l'utilisateur
     if(isset($_POST["submit"])){
         $name = $_POST["name"];
         $adress = $_POST["adress"];
         $availablity = $_POST["availablity"];
         $birthDate = $_POST["birthDate"];
         $desc = $_POST["desc"];
+        
+        //vérification qu'il y'a bien une image télécharger
         if($_FILES["image"]["error"] === 4){
             echo
             "<script> alert('Image existe pas'); </script>"
             ;
         }
+        
+        //vérification de la taille, l'extension du fichier téléchargé
         else{
             $fileName = $_FILES["image"]["name"];
             $fileSize = $_FILES["image"]["size"];
             $tmpName = $_FILES["image"]["tmp_name"];
 
+            //fichier accepté = jpg, jpeg, png
             $validImageExtension = ['jpg', 'jpeg', 'png'];
             $imageExtension = explode('.', $fileName);
             $imageExtension = strtolower(end($imageExtension));
 
+            
             if(!in_array($imageExtension, $validImageExtension)){
                 echo
                 "<script> alert('Image est invalide'); </script>"
                 ;
     
             }
+            
+            //la taille du fichier ne doit pas dépassé 100000
             else if($fileSize > 100000){
                 echo
                 "<script> alert('La taille de limage est tres grande'); </script>"
                 ;
     
             }
+            
+            //si le fichier respecte tout les critères il sera enregistré dans la BDD avec les informations sur l'animal
             else {
                 $newImageName = uniqid();
                 $newImageName .= '.' . $imageExtension;
