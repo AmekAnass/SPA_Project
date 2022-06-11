@@ -26,7 +26,7 @@
                 ;
     
             }
-            else if($fileSize > 100000){
+            else if($fileSize > 1000000){
                 echo
                 "<script> alert('La taille de limage est tres grande'); </script>"
                 ;
